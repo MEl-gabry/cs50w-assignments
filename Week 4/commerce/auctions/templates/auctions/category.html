@@ -1,0 +1,33 @@
+{% extends "auctions/layout.html" %}
+{% block body %}
+
+    <h2>Listings for {{ category.category }}</h2>
+
+    {% for listing in listings %}
+            {% if not listing.closed %}
+                <div class="flex-container">
+                    <div classs="flex-child">
+                        <div class="mb-3">
+                            <div class="card">
+                                {% if listing.image %}
+                                    <img src ={{listing.image}} alt={{listing.product}} class="card-img-top" style="height: 400px; width: 300px;">
+                                {% else %}
+                                    <img src ="https://www.freevector.com/uploads/vector/preview/15799/FreeVector-Box-Logo.jpg" alt="Empty Box" class="card-img-top" style="height: 400px; width: 300px;">
+                                {% endif %}
+                                <div class="card-body p-1">
+                                    <div>
+                                        <h3 class="fw-bolder">Listing: {{ listing.product }}</h3>
+                                        <h4>{{ listing.price }}</h4>
+                                        <p>Description: {{ listing.description }}</p>
+                                    </div>
+                                    <div class="card-footer p-1">
+                                        <a class="btn btn-outline-dark mt-auto" href="{% url 'listing' listing.id %}">Go to Listing</a>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

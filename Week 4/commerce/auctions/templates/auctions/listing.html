@@ -1,0 +1,71 @@
+{% extends "auctions/layout.html" %}
+{% block body %}
+    {% if listing.user.id == user.id and not listing.closed %}    
+    <div style="display: flex;">
+        <h2>{{ listing.product }}</h2>
+        <form action="{% url 'close' listing.id %}" style="margin-left: auto;">
+            {% csrf_token %}
+            <input type="submit" value="Close Listing">
+        </form>
+    </div>
+    {% else %}
+        <h2>{{ listing.product }}</h2>
+    {% endif %}  
+    {% if listing.image %}
+        <img src={{listing.image}} alt={{listing.product}}  width="500" height="600">
+    {% else %}
+        <img src="https://www.freevector.com/uploads/vector/preview/15799/FreeVector-Box-Logo.jpg" alt="Box"  width="500" height="600">
+    {% endif %}
+    <br>
+    {% if user.id %}
+        {% if watched %}
+            <a href="{% url 'unwatch' listing.id %}">
+                <img src="https://www.logolynx.com/images/logolynx/13/13e9a19322e679ed34ce847373f9eb87.jpeg" alt="Watched" width="50" height="50">
+            </a>
+        {% else %}
+            <a href="{% url 'watch' listing.id %}">
+                <img src="https://www.pngkey.com/png/detail/155-1554223_png-file-svg-crossed-eye-icon-png.png" alt="Unwatched" width="50" height="50">
+            </a>
+        {% endif %}
+    {% endif %}
+    <h4>{{ listing.price }}</h4>
+    <h5>Listed by {{ listing.user }}</h5>
+    {% if listing.closed %}
+        {% if listing.winner.id == user.id %}
+            <h6>You have won the auction!</h6>
+        {% elif listing.winner %}
+            <p>Auction won by {{ listing.winner }}</p>
+        {% endif %}
+    {% else %}
+        {% if listing.winner.id and listing.winner.id == user.id %}
+            <p>{{ listing.bids.all.count }} bid(s) so far. You are the current winner.</p>
+        {% elif listing.winner %}
+            <p>{{ listing.bids.all.count }} bid(s) so far. {{ listing.winner }} is the current winner.</p>
+        {% endif %}
+        {% if user.id %}
+            <form action="{% url 'listing' listing.id %}" method="POST">
+                {% csrf_token %}
+                <input type="number" step="0.01" name="amount" class="form-control col-sm-1" placeholder="Bid">
+                <input type="submit" value="Place Bid">
+            </form>
+        {% endif %}
+    {% endif %}
+    {% if bid_val_error %}
+        <p>Enter a bid of a greater amount than the current bid.</p>
+    {% elif bid_error %}
+        <p>Enter a valid amount.</p>
+    {% endif %}
+    <p>Description: {{ listing.description }}</p>
+    {% if user.id %}
+        <form action="{% url 'comment' listing.id %}" method="POST">
+            {% csrf_token %}
+            <textarea class="form-control" name="text"></textarea>
+            <input type="submit" value="Add Comment">
+        </form>
+    {% endif %}
+    <br>
+    {% for comment in comments %}
+        <h5>{{ comment.user }}</h5>
+        <p>{{ comment.text }}</p>
+    {% endfor %}
+{% endblock %}
