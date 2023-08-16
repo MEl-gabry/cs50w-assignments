@@ -1,0 +1,44 @@
+#content {
+  padding: 25% 25% 5%;  
+}
+
+.search-form {
+  border-radius: 30px 0 0 30px;
+}
+
+.input-group {
+  width:100%;
+}
+
+#search {
+  border: 1px;
+}
+
+.search-btn {
+  cursor:pointer;
+  border-radius: 0 30px 30px 0; 
+  background-color:#fff;
+  color:#669;
+  
+}
+
+.text-center {
+  color: #fff;
+}
+
+.response {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.black {
+  color: black;
+}
