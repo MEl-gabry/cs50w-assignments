@@ -1,0 +1,12 @@
+textarea {
+    min-height: 400px;
+}
+
+.centered {
+    text-align: center;
+}
+
+.email_link {
+    color: blue;
+    text-decoration: underline;
+}
